@@ -139,6 +139,8 @@ trait PdfConfig {
 
   val tableOfContentNoDots = Parameter[Boolean]("toc-no-dots")
 
+  var useXVFB:Boolean = false
+
   val outline = Parameter[Option[Boolean]]("outline")
 
   val outlineDepth = Parameter[Int]("outline-depth")

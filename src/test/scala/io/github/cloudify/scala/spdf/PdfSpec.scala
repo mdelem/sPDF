@@ -23,6 +23,14 @@ class PdfSpec extends WordSpec with ShouldMatchers {
 
     }
 
+    "use xvfb if specified" in {
+      val config = new PdfConfig {
+        useXVFB = true
+      }
+      val pdf = Pdf(config)
+      pdf.toCommandLine("foo", new File("bar")).toList(0) should equal("xvfb-run")
+    }
+
     PdfConfig.findExecutable match {
       case Some(_) =>
         "generate a PDF file from an HTML string" in {
