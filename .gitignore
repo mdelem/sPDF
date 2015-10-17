@@ -13,3 +13,5 @@ target/
 /.idea_modules
 /bin/
 /.DS_Store
+/.cache-main
+/.cache-tests

@@ -13,6 +13,8 @@ trait PdfConfig {
    * See `wkhtmltopdf --extended-help` for a description of each option
    */
 
+  val allow = Parameter[Iterable[String]]("allow")
+
   val defaultHeader = Parameter[Boolean]("default-header")
 
   val disableExternalLinks = Parameter[Boolean]("disable-external-links")
@@ -142,6 +144,8 @@ trait PdfConfig {
 
   val tableOfContentNoDots = Parameter[Boolean]("toc-no-dots")
 
+  var useXVFB:Boolean = false
+
   val outline = Parameter[Option[Boolean]]("outline")
 
   val outlineDepth = Parameter[Int]("outline-depth")
@@ -167,6 +171,7 @@ object PdfConfig {
   def toParameters(config: PdfConfig): Seq[String] = {
     import config._
     Seq(
+      allow.toParameter,
       convertForms.toParameter,
       defaultHeader.toParameter,
       disableExternalLinks.toParameter,

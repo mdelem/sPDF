@@ -22,14 +22,20 @@ class Pdf(executablePath: String, config: PdfConfig) {
   /**
    * Generates the command line needed to execute `wkhtmltopdf`
    */
-  private def toCommandLine[A: SourceDocumentLike, B: DestinationDocumentLike](source: A, destination: B): Seq[String] =
-    Seq(executablePath) ++
+  def toCommandLine[A: SourceDocumentLike, B: DestinationDocumentLike](source: A, destination: B): Seq[String] = {
+    var xvfb:Seq[String] = Seq()
+    if (config.useXVFB) {
+      xvfb = Seq("xvfb-run")
+    }
+    xvfb ++
+      Seq(executablePath) ++
       PdfConfig.toParameters(config) ++
       Seq(
         "--quiet",
         implicitly[SourceDocumentLike[A]].commandParameter(source),
         implicitly[DestinationDocumentLike[B]].commandParameter(destination)
       )
+  }
 
   /**
    * Check whether the executable is actually executable, if it isn't
