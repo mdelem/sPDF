@@ -18,7 +18,7 @@ object ParamShow {
   implicit object BooleanParamShow extends ParamShow[Boolean] {
     override def show(name: String, value: Boolean): Iterable[String] = value match {
       case true => formatParam(name, None)
-      case _ => Iterable.empty
+      case _    => Iterable.empty
     }
   }
 
@@ -26,6 +26,11 @@ object ParamShow {
     override def show(name: String, value: Iterable[String]): Iterable[String] = {
       value flatMap (x => formatParam(name, Some(x)))
     }
+  }
+
+  implicit object MultipleValueParamShow extends ParamShow[(String, String)] {
+    override def show(name: String, value: (String, String)): Iterable[String] =
+      formatParam(name, value)
   }
 
   implicit object OptionBooleanParamShow extends ParamShow[Option[Boolean]] {
@@ -51,7 +56,10 @@ object ParamShow {
   private def formatParam(name: String, value: Option[String]): Iterable[String] =
     Seq(Some("--" + name), value).flatten
 
-  private def formatParam(name: String, value: Boolean): Iterable[String] = if(value) {
+  private def formatParam(name: String, value: (String, String)): Iterable[String] =
+    Seq("--" + name, value._1, value._2)
+
+  private def formatParam(name: String, value: Boolean): Iterable[String] = if (value) {
     Some("--" + name)
   } else {
     Some("--no-" + name)

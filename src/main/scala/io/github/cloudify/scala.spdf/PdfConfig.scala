@@ -159,6 +159,8 @@ trait PdfConfig {
   val password = Parameter[String]("password")
 
   val viewportSize = Parameter[String]("viewport-size")
+  
+  val cookie = Parameter[(String, String)]("cookie")
 
 }
 
@@ -245,7 +247,8 @@ object PdfConfig {
       userStyleSheet.toParameter,
       username.toParameter,
       viewportSize.toParameter,
-      zoom.toParameter
+      zoom.toParameter,
+      cookie.toParameter
     ).flatten
   }
 
